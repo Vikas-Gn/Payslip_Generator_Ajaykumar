@@ -34,7 +34,9 @@ app.use(cors({
     'http://127.0.0.1:5500',
     'http://localhost:5500',
     'http://127.0.0.1:5503',
-    'null'
+    'null',
+    'http://43.205.129.17:8089/',
+    'http://43.205.129.17:8090/',
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
