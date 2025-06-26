@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: postgres-payslip
+    environment:
+      POSTGRES_DB: new_employee_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin123
+    ports:
+      - "5030:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  backend:
+    build:
+      context: ./Backend
+    container_name: Backend-payslip
+    ports:
+      - "3063:3063"
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=admin123
+      - DB_NAME=new_employee_db
+      - PORT=3063
+      - UPLOAD_DIR=../upload
+    depends_on:
+      - postgres
+
+  frontend:
+    build:
+      context: ./Frontend
+    container_name: Frontend-payslip
+    ports:
+      - "8089:80"
+
+  hr_page:
+    build:
+      context: ./HR_Page
+    container_name: Hr_page-payslip
+    ports:
+      - "8090:80"
+
+volumes:
+  pgdata:
+
